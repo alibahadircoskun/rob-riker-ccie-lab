@@ -1,4 +1,4 @@
-# Enterprise Practice Lab 1
+# Rob Riker's CCIE Lab
 
 A comprehensive enterprise network lab covering multiple networking technologies and topologies including campus networks, data centers, WAN connectivity, ISP routing, MPLS, DMVPN, and VXLAN overlay networks.
 
