@@ -13,7 +13,6 @@ Nexus Distribution/Catalyst Distribution and Routed Core
 WAN/Internet Edge
 1. Enable OSPF on Nexus switch
 2. Configure CSR15 and N9K7 interfaces facing SW26 and SW27 for OSPF
-3. Configure OSPF to WAN and Internet edge devices
 
 Redistribution
 1. Redistribute OSPF and EIGRP mutually on CSR15 and N9K7
@@ -441,7 +440,6 @@ route-map RM_EIGRP_TO_BGP permit 10
 * Nexus switches use `ip router eigrp` command on interfaces instead of network statements.
 * Nexus switches use `ip router ospf` command with area specification on interfaces.
 * CSR routers use traditional `network` statements under the EIGRP process.
-* The `subnets` keyword in OSPF redistribution is required to redistribute subnets.
 * EIGRP metric parameters (bandwidth, delay, reliability, load, MTU) are required when redistributing into EIGRP on IOS routers.
 * Route-maps are used to control redistribution on all devices.
 * CSR13 and CSR14 use `network 10.0.0.0` which includes all interfaces in the 10.0.0.0/8 range.
