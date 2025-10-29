@@ -113,7 +113,7 @@ show ip ospf database
 ```
 
 ### 5. Configure Palo Alto Firewall for Internet Access
-FW37 (Palo Alto) is configured via GUI to allow RFC 1918 private addresses to access the internet using NAT. The firewall connects to the internal network and to the ISP router (CSR16).
+FW37 (Palo Alto) is configured to allow RFC 1918 private addresses to access the internet using NAT. The firewall connects to the internal network and to the ISP router (CSR16).
 
 **FW37 Configuration (via GUI):**
 
@@ -125,7 +125,7 @@ FW37 (Palo Alto) is configured via GUI to allow RFC 1918 private addresses to ac
 - **Static Route**: Default route to 1.16.0.16 via ethernet1/3 (ISP router CSR16)
 
 ### 6. Configure ISP Router (CSR16)
-CSR16 acts as the Internet Service Provider router. Only the customer-facing interface (GigabitEthernet3) connecting to FW37 is configured.
+CSR16 acts as the Internet Service Provider router.
 
 **CSR16**
 
@@ -234,57 +234,14 @@ router ospf 1
  network 10.15.27.0 0.0.0.255 area 0
 ```
 
-## Configuration Summary
-### OSPF Configuration
-| Device | Router ID | Process ID | Area | Interfaces |
-|--------|-----------|------------|------|------------|
-| N9K7 | 10.0.0.7 | 1 | 0.0.0.0 | Eth1/5, Eth1/6 |
-| CSR15 | 10.0.0.15 | 1 | 0 | Gi4, Gi5 |
-| FW37 | 10.0.0.111 | 1 | 0.0.0.0 | ethernet1/1 |
-
-### EIGRP Configuration
-| Device | Router ID | Process ID | Interfaces |
-|--------|-----------|------------|------------|
-| N9K7 | 10.0.0.7 | 1 | Eth1/1-4 |
-| CSR15 | 10.0.0.15 | 1 | Gi1, Gi2, Gi3 |
-
-### Redistribution
-| Device | EIGRP to OSPF | OSPF to EIGRP |
-|--------|---------------|---------------|
-| N9K7 | Yes (route-map) | Yes (route-map) |
-| CSR15 | Yes (subnets keyword) | Yes (with metric) |
-
-### Firewall Configuration (Palo Alto)
-| Parameter | Value |
-|-----------|-------|
-| Inside Interface | ethernet1/1 (10.26.100.100/24) |
-| Outside Interface | ethernet1/3 (1.16.0.111/24) |
-| NAT | Dynamic PAT to outside interface |
-| Security Policy | Permit all from in to out |
-| Default Route | 1.16.0.16 via ethernet1/3 |
-| OSPF | Enabled on ethernet1/1 in area 0 |
-
-### ISP Router Configuration
-| Parameter | Value |
-|-----------|-------|
-| Device | CSR16 |
-| Customer Interface | GigabitEthernet3 (1.16.0.16/24) |
-| Role | Internet Service Provider | (1.16.0.16/24) |
-| Router ID | 1.0.0.16 |
-| OSPF | Process 1, Area 0 |
-| BGP | AS 1 (iBGP peering) |
-| Security | Blocks RFC 1918 addresses |
-
 ## Notes
-- OSPF is used at the WAN edge to connect to service provider networks (SW26, SW27).
-- EIGRP is used for internal enterprise routing.
 - N9K7 and CSR15 perform mutual redistribution between EIGRP and OSPF.
 - Nexus switches use `ip router ospf` command with area specification on interfaces.
 - CSR routers use `network` statements under the OSPF process.
 - The `subnets` keyword in OSPF redistribution is required to redistribute subnets.
 - EIGRP metric parameters (bandwidth, delay, reliability, load, MTU) are required when redistributing into EIGRP on IOS routers.
 - Route-maps are used to control redistribution on N9K7.
-- FW37 is a Palo Alto firewall configured via GUI that provides internet access using NAT for RFC 1918 private addresses (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16).
+- FW37 is a Palo Alto firewall configured via GUI that provides internet access using NAT for RFC 1918 private addresses.
 - Dynamic PAT translates internal addresses to the outside interface IP address.
 - Zones are used to define security boundaries (in=inside, out=outside).
 - The security policy explicitly permits all traffic from inside to outside zone.
