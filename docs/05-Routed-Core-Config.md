@@ -251,20 +251,6 @@ route-map RM_BGP_TO_EIGRP permit 10
 route-map RM_EIGRP_TO_BGP permit 10
 ```
 
-## Configuration Summary
-
-| Device | Router ID | EIGRP | BGP AS | BGP Neighbor | Neighbor AS |
-|--------|-----------|-------|--------|--------------|-------------|
-| N9K7 | 10.0.0.7 | Process 1 | N/A | N/A | N/A |
-| CSR13 | 10.0.0.13 | Process 1 | 65001 | 10.8.13.8 | 65002 |
-| CSR14 | 10.0.0.14 | Process 1 | 65001 | 10.10.14.10 | 65002 |
-
-### Redistribution
-
-| Device | EIGRP to BGP | BGP to EIGRP |
-|--------|--------------|--------------|
-| CSR13 | Yes (route-map) | Yes (route-map with metric) |
-| CSR14 | Yes (route-map) | Yes (route-map with metric) |
 
 ## Notes
 
