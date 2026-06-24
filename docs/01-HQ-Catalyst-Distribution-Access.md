@@ -6,6 +6,10 @@
 - **VTP Domain**: enterprise
 - **VLANs**: Odd and even VLANs
 
+## Lab note
+
+All hostnames, addresses, and any credentials in these notes are lab-only examples.
+
 ## Configuration Tasks
 
 ### 1. Configure VTP Domain
